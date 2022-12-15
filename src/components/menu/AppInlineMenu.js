@@ -1,14 +1,22 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/destructuring-assignment */
-import React, { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
 import { classNames } from 'primereact/utils'
 import { useSelector } from 'react-redux'
+import { getAuth } from 'firebase/auth'
 import history from '../../History'
+import UpdateUser from './UpdateUser'
+import UserInfo from './UserInfo'
 
 const AppInlineMenu = (props) => {
-  const userInfo = useSelector((state) => state.user.info)
+  const app = useSelector((state) => state.firebase.app)
+  const [currentUser, setCurrentUser] = useState(null)
   const menuRef = useRef(null)
+  const auth = getAuth(app)
+  auth.onAuthStateChanged((user) => {
+    setCurrentUser(user)
+  })
 
   const isSlim = () => {
     return props.menuMode === 'slim'
@@ -25,7 +33,6 @@ const AppInlineMenu = (props) => {
   const isMobile = () => {
     return window.innerWidth <= 991
   }
-
   return (
     <>
       {!isMobile() && (isStatic() || isSlim() || isSidebar()) && (
@@ -39,11 +46,13 @@ const AppInlineMenu = (props) => {
             onClick={props.onChangeActiveInlineMenu}
           >
             <img
-              src="/assets/layout/images/avatar.png"
+              src={(currentUser && currentUser.photoURL) || '/assets/layout/images/avatar.png'}
               alt="avatar"
               style={{ width: '44px', height: '44px' }}
             />
-            <span className="layout-inline-menu-text">{userInfo.fullName}</span>
+            <span className="layout-inline-menu-text">
+              {currentUser && currentUser.displayName}
+            </span>
             <i className="layout-inline-menu-icon pi pi-angle-down" />
           </button>
           <CSSTransition
@@ -57,14 +66,14 @@ const AppInlineMenu = (props) => {
               <li className="layout-inline-menu-action-item">
                 <button className="p-link">
                   <i className="pi pi-power-off pi-fw" />
-                  <span onClick={() => history.go('/logout')}>Đăng xuất</span>
+                  <span onClick={() => history.push('/logout')}>Đăng xuất</span>
                 </button>
               </li>
               <li className="layout-inline-menu-action-item">
-                <button className="p-link">
-                  <i className="pi pi-cog pi-fw" />
-                  <span>Cài đặt</span>
-                </button>
+                <UpdateUser currentUser={currentUser} setCurrentUser={setCurrentUser} />
+              </li>
+              <li className="layout-inline-menu-action-item">
+                <UserInfo currentUser={currentUser} />
               </li>
             </ul>
           </CSSTransition>

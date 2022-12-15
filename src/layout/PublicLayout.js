@@ -1,11 +1,11 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable max-lines-per-function */
-/* eslint-disable no-unused-expressions */
 import { Route, withRouter, useLocation } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import { classNames } from 'primereact/utils'
 import PrimeReact from 'primereact/api'
 // import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { getAuth } from 'firebase/auth'
 import ProtectedRoute from './ProtectedRoute'
 import routes from '../constant/routes'
 import AppMenu from '../components/menu/AppMenu'
@@ -13,11 +13,17 @@ import AppFooter from '../components/menu/AppFooter'
 import AppTopbar from '../components/menu/AppTopbar'
 // import { convertToMenu } from '../utils/convertToTree'
 import AppBreadcrumb from '../components/menu/AppBreadcrumb'
+import { adminId, adminMenu, menu } from '../constant/config'
 
 function PublicLayout() {
+  const app = useSelector((state) => state.firebase.app)
+  const [currentUser, setCurrentUser] = useState(null)
+  const auth = getAuth(app)
+  auth.onAuthStateChanged((user) => {
+    setCurrentUser(user)
+  })
   const menuMode = 'sidebar'
   // const menuMode = 'static'
-
   const [sidebarStatic, setSidebarStatic] = useState(true)
   const [sidebarActive, setSidebarActive] = useState(true)
   const [pinActive, setPinActive] = useState(true)
@@ -32,30 +38,6 @@ function PublicLayout() {
   const [resetActiveIndex, setResetActiveIndex] = useState(null)
   const copyTooltipRef = useRef()
   const location = useLocation()
-  // const actions = useSelector((state) => {
-  // return [
-  // ...state.user.actions.map((item) => {
-  // return { ...item }
-  // }),
-  // ]
-  // })
-  // const menu = actions.filter((item) => item.parentId === null)
-  // convertToMenu(menu)
-  // const menu = [
-  // {
-  // label: 'Favorites',
-  // icon: 'pi pi-home',
-  // items: [{ label: 'Dashboard', icon: 'pi pi-home', to: '/home' }],
-  // },
-  // ]
-  const menu = [
-    {
-      label: 'Trang chủ',
-      icon: 'pi pi-home',
-      to: '#',
-      items: [{ label: 'Trang chủ', icon: 'pi pi-home', to: '/' }],
-    },
-  ]
 
   PrimeReact.ripple = true
 
@@ -65,7 +47,7 @@ function PublicLayout() {
   let topbarItemClick
 
   useEffect(() => {
-    copyTooltipRef && copyTooltipRef.current && copyTooltipRef.current.updateTargetEvents()
+    if (copyTooltipRef && copyTooltipRef.current) copyTooltipRef.current.updateTargetEvents()
   }, [location])
 
   useEffect(() => {
@@ -113,6 +95,10 @@ function PublicLayout() {
     }
   }
 
+  const hideOverlayMenu = () => {
+    setOverlayMenuActive(false)
+    setStaticMenuMobileActive(false)
+  }
   const onDocumentClick = () => {
     if (!searchClick && searchActive) {
       onSearchHide()
@@ -161,11 +147,6 @@ function PublicLayout() {
     }
 
     event.preventDefault()
-  }
-
-  const hideOverlayMenu = () => {
-    setOverlayMenuActive(false)
-    setStaticMenuMobileActive(false)
   }
 
   const onTopbarItemClick = (event) => {
@@ -243,13 +224,13 @@ function PublicLayout() {
     'layout-sidebar-static': menuMode === 'sidebar' && sidebarStatic,
     'layout-static-inactive': staticMenuDesktopInactive && menuMode === 'static',
   })
-
+  const appMenu = currentUser && currentUser.uid === adminId ? [...menu, ...adminMenu] : menu
   return (
     <div>
       <div className={layoutClassName} onClick={onDocumentClick}>
         <div className="layout-main">
           <AppTopbar
-            items={menu}
+            items={appMenu}
             menuMode={menuMode}
             menuActive={menuActive}
             topbarMenuActive={topbarMenuActive}
@@ -266,7 +247,7 @@ function PublicLayout() {
             resetActiveIndex={resetActiveIndex}
           />
           <AppMenu
-            model={menu}
+            model={appMenu}
             onRootMenuItemClick={onRootMenuItemClick}
             onMenuItemClick={onMenuItemClick}
             onToggleMenu={onToggleMenu}

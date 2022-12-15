@@ -12,8 +12,16 @@
     content:"(*)";
     color: red;
 }
-.hidden {
-  display:none;
+
+.editor-container {
+	padding: 5px 10px;
+	.codex-editor__redactor {
+		padding-bottom: 0 !important;
+		.ce-block__content {
+			padding: 0 1rem;
+			background-color: $cardBg;
+		}
+	}
 }
 
 @media screen and (max-width: 1400px) {

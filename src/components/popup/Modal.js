@@ -7,7 +7,13 @@ const Modal = (props) => {
       header={header}
       visible={visible}
       modal
-      footer={footer || ''}
+      footer={
+        footer || (
+          <div>
+            <p />
+          </div>
+        )
+      }
       onHide={() => toggle && toggle()}
       style={{ width: width || '50%' }}
     >

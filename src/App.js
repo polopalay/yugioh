@@ -1,27 +1,28 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useRef, useState } from 'react'
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import { Toast } from 'primereact/toast'
+import { initializeApp } from 'firebase/app'
+import { getAuth, signOut } from 'firebase/auth'
 import PublicLayout from './layout/PublicLayout'
 import Login from './pages/Login'
 import AccessDenied from './pages/AccessDenied'
 import './css/all.scss'
 import Loading from './pages/Loading'
 import store from './store/store'
-import { isNotLoading } from './store/reducer/loading'
 import { setConfirm, setToast } from './store/reducer/notify'
 import Confirmation from './components/form/Confirmation'
+import { firebaseConfig } from './constant/config'
+import history from './History'
+import { setApp } from './store/reducer/firebase'
 
 function App() {
-  const loading = useSelector((state) => state.loading)
+  const [loading, setLoading] = useState(true)
   const [visible, setVisible] = useState(false)
+  const [firebaseAuth, setFirebaseAuth] = useState(null)
   const [confirmation, setConfirmation] = useState({ action: null, body: '' })
-  const toggle = () => setVisible(!visible)
   const toast = useRef()
-
-  useEffect(() => {
-    store.dispatch(isNotLoading())
-  }, [])
+  const toggle = () => setVisible(!visible)
   useEffect(() => {
     store.dispatch(
       setToast((data) =>
@@ -29,7 +30,7 @@ function App() {
           severity: data.type,
           summary: data.message,
           detail: '',
-          life: 800,
+          life: 2000,
         }),
       ),
     )
@@ -39,7 +40,11 @@ function App() {
         if (data) setConfirmation(data)
       }),
     )
-  }, [toast])
+    const app = initializeApp(firebaseConfig)
+    store.dispatch(setApp(app))
+    setFirebaseAuth(getAuth(app))
+    setLoading(false)
+  }, [])
   return (
     <>
       <Toast ref={toast} />
@@ -63,7 +68,7 @@ function App() {
             path="/logout"
             exact
             render={() => {
-              // localStorage.clear()
+              signOut(firebaseAuth)
               return <Redirect from="/logout" to="/login" />
             }}
           />

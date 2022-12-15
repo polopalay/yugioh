@@ -1,25 +1,54 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { useSelector } from 'react-redux'
+import {
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  getAuth,
+} from 'firebase/auth'
 import { appName } from '../constant/config'
 import history from '../History'
+import store from '../store/store'
+import { setUserInfo } from '../store/reducer/user'
+
+const provider = new GoogleAuthProvider()
 
 export default function Login() {
-  const [user, setUser] = useState({ userName: '', password: '' })
-  const toast = useSelector((store) => store.notify.toast)
+  const app = useSelector((state) => state.firebase.app)
+  const auth = getAuth(app)
+  const [userModal, setUserModal] = useState({ userName: '', password: '' })
+  const toast = useSelector((state) => state.notify.toast)
 
   const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value })
+    setUserModal({ ...userModal, [e.target.name]: e.target.value })
   }
-  const handleSubmit = async () => {
-    history.push('/')
-    toast({ type: 'success', message: 'Đăng nhập thành công' })
+  const handleSubmit = () => {
+    signInWithEmailAndPassword(auth, userModal.userName, userModal.password)
+      .then((rs) => {
+        store.dispatch(setUserInfo(rs.user))
+        history.push('/')
+      })
+      .catch((error) => {
+        toast({ type: 'error', message: error.message })
+      })
   }
   const onPressEnter = (e) => {
     if (e.key === 'Enter') {
       handleSubmit()
     }
+  }
+  const loginWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then((rs) => {
+        store.dispatch(setUserInfo(rs.user))
+        history.push('/')
+      })
+      .catch((error) => {
+        toast({ type: 'error', message: error.message })
+      })
   }
 
   return (
@@ -38,7 +67,7 @@ export default function Login() {
               <span className="p-input-icon-left">
                 <i className="pi pi-envelope" />
                 <InputText
-                  value={user.userName}
+                  value={userModal.userName}
                   type="text"
                   placeholder="Tài khoản"
                   name="userName"
@@ -49,7 +78,7 @@ export default function Login() {
               <span className="p-input-icon-left">
                 <i className="pi pi-key" />
                 <InputText
-                  value={user.password}
+                  value={userModal.password}
                   type="password"
                   placeholder="Mật khẩu"
                   name="password"
@@ -60,6 +89,12 @@ export default function Login() {
             </div>
             <div className="button-container">
               <Button type="button" label="Login" onClick={handleSubmit} />
+              <span>
+                Đăng nhập bằng google
+                <button type="button" className="p-link" onClick={loginWithGoogle}>
+                  Nhấn vào đây
+                </button>
+              </span>
             </div>
           </div>
         </div>

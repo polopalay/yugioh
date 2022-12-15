@@ -1,35 +1,45 @@
+/* eslint-disable max-lines-per-function */
 import { useEffect, useState } from 'react'
 import { Button } from 'primereact/button'
 import { Toolbar } from 'primereact/toolbar'
 import { useSelector } from 'react-redux'
+import { getDatabase, onValue, ref, push, update, remove } from 'firebase/database'
 import UpsertPopup from './UpsertPopup'
 import Table from '../layout/Table'
+import { jsonToList } from '../../utils/format'
 
 function Crud(props) {
-  const { processor, moduleName, column, upsert, table, toolbar, chucNang } = props
+  const { moduleName, column, upsert, table, toolbar, chucNang, src } = props
   const [oneData, setOneData] = useState({})
+  const app = useSelector((state) => state.firebase.app)
   const [data, setData] = useState([])
+  const database = getDatabase(app)
+  const dataRef = ref(database, src)
+  useEffect(() => {
+    onValue(dataRef, (snapshot) => {
+      const rawList = snapshot.val()
+      const list = jsonToList(rawList)
+      setData(list)
+    })
+  }, [])
   const [visible, setVisible] = useState(false)
   const toast = useSelector((store) => store.notify.toast)
   const confirm = useSelector((store) => store.notify.confirm)
   const toggle = () => setVisible(!visible)
-  const getDatas = async () => {
-    const rs = await processor.getAll()
-    setData(rs)
-  }
-  useEffect(getDatas, [])
   const save = async (value) => {
-    const rs = await processor.upsert(value)
-    if (rs.isSuccess) {
-      toggle()
-      getDatas()
+    if (value.id) {
+      const nodeRef = ref(database, `${src}/${value.id}`)
+      update(nodeRef, { ...value, id: null })
+    } else {
+      push(dataRef, value)
     }
-    toast({ type: rs.isSuccess ? 'success' : 'error', message: rs.data })
+    toggle()
+    toast({ type: 'success', message: value.id ? 'Cập nhật thành công' : 'Thêm thành công' })
   }
-  const deleteOnClick = async () => {
-    const rs = await processor.delete(oneData.id)
-    toast({ type: rs.isSuccess ? 'success' : 'error', message: rs.data })
-    if (rs.isSuccess) getDatas()
+  const deleteOnClick = async (id) => {
+    const nodeRef = ref(database, `${src}/${id}`)
+    await remove(nodeRef)
+    toast({ type: 'success', message: 'Xoá thành công' })
   }
   const columnTable = [
     ...column,
@@ -53,9 +63,8 @@ function Crud(props) {
               icon="pi pi-trash"
               className="p-button-rounded p-button-danger mr-2"
               onClick={() => {
-                setOneData(value)
                 confirm({
-                  action: deleteOnClick,
+                  action: () => deleteOnClick(value.id),
                   body: `Bạn có muốn xoá ${moduleName} này?`,
                 })
               }}
