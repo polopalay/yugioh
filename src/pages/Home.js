@@ -1,30 +1,27 @@
+import { getDatabase, onValue, ref } from 'firebase/database'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import Crud from '../components/form/Crud'
-import userProcessor from '../processor/userProcessor'
+import Output from 'editorjs-react-renderer'
+import { jsonToList } from '../utils/format'
 
 function Home() {
-  const moduleName = 'người dùng'
-  const processor = userProcessor
-
-  const column = [
-    { value: 'userName', name: 'Tên đăng nhập', sortable: true },
-    { value: 'name', name: 'Tên', sortable: true },
-  ]
-
-  const config = {
-    fields: ['userName', 'name'],
-    maxLength: { userName: 20, name: 100 },
-    required: ['userName'],
-    name: {
-      userName: 'Tên đăng nhập',
-      name: 'Tên',
-    },
-    disable: (oneData) => (!oneData.id ? [] : ['userName']),
-  }
-
+  const app = useSelector((state) => state.firebase.app)
+  const [data, setData] = useState([])
+  const database = getDatabase(app)
+  const dataRef = ref(database, 'posts')
+  useEffect(() => {
+    onValue(dataRef, (snapshot) => {
+      const rawList = snapshot.val()
+      const list = jsonToList(rawList)
+      setData(list)
+    })
+  }, [])
   return (
     <>
-      <Crud processor={processor} moduleName={moduleName} column={column} upsert={config} />
+      {data.map((item) => (
+        <Output data={{ blocks: item.content }} />
+      ))}
     </>
   )
 }

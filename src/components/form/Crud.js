@@ -1,4 +1,3 @@
-/* eslint-disable max-lines-per-function */
 import { useEffect, useState } from 'react'
 import { Button } from 'primereact/button'
 import { Toolbar } from 'primereact/toolbar'
@@ -9,12 +8,12 @@ import Table from '../layout/Table'
 import { jsonToList } from '../../utils/format'
 
 function Crud(props) {
-  const { moduleName, column, upsert, table, toolbar, chucNang, src } = props
+  const { moduleName, column, upsert, table, toolbar, chucNang, module } = props
   const [oneData, setOneData] = useState({})
   const app = useSelector((state) => state.firebase.app)
   const [data, setData] = useState([])
   const database = getDatabase(app)
-  const dataRef = ref(database, src)
+  const dataRef = ref(database, module)
   useEffect(() => {
     onValue(dataRef, (snapshot) => {
       const rawList = snapshot.val()
@@ -28,7 +27,7 @@ function Crud(props) {
   const toggle = () => setVisible(!visible)
   const save = async (value) => {
     if (value.id) {
-      const nodeRef = ref(database, `${src}/${value.id}`)
+      const nodeRef = ref(database, `${module}/${value.id}`)
       update(nodeRef, { ...value, id: null })
     } else {
       push(dataRef, value)
@@ -37,7 +36,7 @@ function Crud(props) {
     toast({ type: 'success', message: value.id ? 'Cập nhật thành công' : 'Thêm thành công' })
   }
   const deleteOnClick = async (id) => {
-    const nodeRef = ref(database, `${src}/${id}`)
+    const nodeRef = ref(database, `${module}/${id}`)
     await remove(nodeRef)
     toast({ type: 'success', message: 'Xoá thành công' })
   }

@@ -6,6 +6,7 @@ import { InputTextarea } from 'primereact/inputtextarea'
 import { FileUpload } from 'primereact/fileupload'
 import { Checkbox } from 'primereact/checkbox'
 import { dateToDDMMYY, DDMMYYToDate } from '../../utils/date'
+import Editor from './Editor'
 
 const Upsert = (props) => {
   const { values, setValues, error, setError } = props
@@ -132,7 +133,15 @@ const Upsert = (props) => {
             }}
           />
         )
-
+      case 'editor':
+        return (
+          <Editor
+            value={values[key]}
+            onChange={(event) => {
+              handleChange(key, event)
+            }}
+          />
+        )
       default:
         return (
           <InputText

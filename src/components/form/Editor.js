@@ -1,12 +1,8 @@
-/* eslint-disable no-unused-vars */
 import Paragraph from '@editorjs/paragraph'
 import ImageTool from '@editorjs/image'
-import Quote from '@editorjs/quote'
 import Marker from '@editorjs/marker'
-import InlineCode from '@editorjs/inline-code'
-import ListTool from '@editorjs/list'
-import Delimiter from '@editorjs/delimiter'
 import EditorJS from '@editorjs/editorjs'
+import AlignmentTuneTool from 'editorjs-text-alignment-blocktune'
 import { useEffect } from 'react'
 import { toBase64 } from '../../utils/file'
 
@@ -28,27 +24,32 @@ const uploadByUrl = async (url) => {
   }
 }
 const tools = {
-  delimiter: Delimiter,
-  paragraph: { class: Paragraph, inlineToolbar: true },
-  quote: { class: Quote, inlineToolbar: true },
+  paragraph: { class: Paragraph, tunes: ['alignment'] },
   marker: Marker,
-  inlineCode: InlineCode,
-  list: { class: ListTool, inlineToolbar: true },
   image: {
     class: ImageTool,
     config: { uploader: { uploadByFile, uploadByUrl } },
   },
+  alignment: {
+    class: AlignmentTuneTool,
+  },
 }
 
 const Editor = (props) => {
-  const { setEditor } = props
+  const { value, onChange } = props
   useEffect(() => {
     const init = new EditorJS({
       holder: 'editor',
       tools,
       logLevel: 'ERROR',
+      onChange: async () => {
+        const data = await init.save()
+        if (onChange) onChange(data.blocks)
+      },
+      onReady: () => {
+        if (value) init.blocks.render({ blocks: value })
+      },
     })
-    if (setEditor) setEditor(init)
   }, [])
   return (
     <>
