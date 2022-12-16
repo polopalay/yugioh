@@ -20,7 +20,7 @@ const PostsManager = () => {
 
   const config = {
     fields: ['author', 'title', 'thumnail', 'date', 'description', 'content'],
-    maxLength: { author: 20, title: 100, description: 300 },
+    maxLength: { author: 20, title: 80, description: 300 },
     col: { author: 12, date: 12, title: 12, thumnail: 12, description: 12, content: 12 },
     required: ['author', 'title'],
     types: { content: 'editor', thumnail: 'file', description: 'text-area', date: 'date' },

@@ -854,13 +854,13 @@ $chipTextColor:$textColor;
 $chipBorderRadius: 16px;
 
 //scrollTop
-$scrollTopBg:rgba(0,0,0,0.7);
-$scrollTopHoverBg:rgba(0,0,0,0.8);
-$scrollTopWidth:3rem;
-$scrollTopHeight:3rem;
-$scrollTopBorderRadius:50%;
-$scrollTopFontSize:1.5rem;
-$scrollTopTextColor:$shade000;
+$scrollTopBg:#5f57a8;
+$scrollTopHoverBg:#4c4587;
+$scrollTopWidth:2.5rem;
+$scrollTopHeight:2.5rem;
+$scrollTopBorderRadius:10%;
+$scrollTopFontSize:1.2rem;
+$scrollTopTextColor:$shade400;
 
 //skeleton
 $skeletonBg:$shade100;

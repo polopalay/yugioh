@@ -4,6 +4,7 @@ import { Switch, Route, withRouter, Redirect } from 'react-router-dom'
 import { Toast } from 'primereact/toast'
 import { initializeApp } from 'firebase/app'
 import { getAuth, signOut } from 'firebase/auth'
+import { ScrollTop } from 'primereact/scrolltop'
 import PublicLayout from './layout/PublicLayout'
 import Login from './pages/Login'
 import AccessDenied from './pages/AccessDenied'
@@ -48,6 +49,7 @@ function App() {
   return (
     <>
       <Toast ref={toast} />
+      <ScrollTop />
       <Confirmation
         visible={visible}
         toggle={toggle}
@@ -69,7 +71,7 @@ function App() {
             exact
             render={() => {
               signOut(firebaseAuth)
-              return <Redirect from="/logout" to="/login" />
+              return <Redirect from="/logout" to="/" />
             }}
           />
           <Route path="/accessDenied" component={AccessDenied} />

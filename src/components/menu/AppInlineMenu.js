@@ -82,7 +82,7 @@ const AppInlineMenu = (props) => {
                 <li className="layout-inline-menu-action-item">
                   <button className="p-link">
                     <i className="pi pi-sign-in pi-fw" />
-                    <span onClick={() => history.push('/logout')}>Đăng nhập</span>
+                    <span onClick={() => history.push('/login')}>Đăng nhập</span>
                   </button>
                 </li>
               )}

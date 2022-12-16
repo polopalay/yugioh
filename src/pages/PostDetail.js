@@ -24,7 +24,7 @@ function PostDetail(props) {
     <>
       <div className="flex flex-column">
         <div className="flex justify-content-center">
-          <h4>{data && data.title}</h4>
+          <h4 className="m-0">{data && data.title}</h4>
         </div>
         <hr />
         <div className="flex justify-content-start mb-2">
@@ -37,7 +37,7 @@ function PostDetail(props) {
             {data && data.author}
           </b>
         </div>
-        <div>{data && <Output data={{ blocks: data.content }} />}</div>
+        <div>{data && data.content && <Output data={{ blocks: data.content }} />}</div>
       </div>
     </>
   )
