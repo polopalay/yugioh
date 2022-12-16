@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/yugioh/static/css/main.eac3b62f.chunk.css",
+    "main.js": "/yugioh/static/js/main.e3fabe04.chunk.js",
+    "main.js.map": "/yugioh/static/js/main.e3fabe04.chunk.js.map",
+    "runtime-main.js": "/yugioh/static/js/runtime-main.1e786d22.js",
+    "runtime-main.js.map": "/yugioh/static/js/runtime-main.1e786d22.js.map",
+    "static/css/2.340bd770.chunk.css": "/yugioh/static/css/2.340bd770.chunk.css",
+    "static/js/2.c0f45abe.chunk.js": "/yugioh/static/js/2.c0f45abe.chunk.js",
+    "static/js/2.c0f45abe.chunk.js.map": "/yugioh/static/js/2.c0f45abe.chunk.js.map",
+    "index.html": "/yugioh/index.html",
+    "static/css/2.340bd770.chunk.css.map": "/yugioh/static/css/2.340bd770.chunk.css.map",
+    "static/css/main.eac3b62f.chunk.css.map": "/yugioh/static/css/main.eac3b62f.chunk.css.map",
+    "static/js/2.c0f45abe.chunk.js.LICENSE.txt": "/yugioh/static/js/2.c0f45abe.chunk.js.LICENSE.txt",
+    "static/media/all.scss": "/yugioh/static/media/primeicons.ea535860.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1e786d22.js",
+    "static/css/2.340bd770.chunk.css",
+    "static/js/2.c0f45abe.chunk.js",
+    "static/css/main.eac3b62f.chunk.css",
+    "static/js/main.e3fabe04.chunk.js"
+  ]
+}
