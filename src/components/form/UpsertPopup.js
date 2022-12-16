@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-syntax */
-/* eslint-disable no-undef */
 /* eslint-disable no-await-in-loop */
-import { getStorage, uploadString, ref, getDownloadURL } from 'firebase/storage'
+/* eslint-disable max-lines-per-function */
+import { getStorage, uploadString, ref, getDownloadURL, uploadBytes } from 'firebase/storage'
 import { Button } from 'primereact/button'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -67,6 +67,15 @@ const UpsertPopup = (props) => {
                   block.data.file.url = img
                 }
               }
+            }
+          }
+        }
+        if (types[key] === 'file') {
+          if (values[key]) {
+            if (typeof values[key] !== 'string') {
+              const storageRef = ref(storage, `images/${new Date().toString()}`)
+              const rsUpload = await uploadBytes(storageRef, values[key])
+              if (rsUpload) values[key] = await getDownloadURL(rsUpload.ref)
             }
           }
         }

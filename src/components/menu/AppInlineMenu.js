@@ -63,18 +63,29 @@ const AppInlineMenu = (props) => {
             unmountOnExit
           >
             <ul ref={menuRef} className="layout-inline-menu-action-panel">
-              <li className="layout-inline-menu-action-item">
-                <button className="p-link">
-                  <i className="pi pi-power-off pi-fw" />
-                  <span onClick={() => history.push('/logout')}>Đăng xuất</span>
-                </button>
-              </li>
-              <li className="layout-inline-menu-action-item">
-                <UpdateUser currentUser={currentUser} setCurrentUser={setCurrentUser} />
-              </li>
-              <li className="layout-inline-menu-action-item">
-                <UserInfo currentUser={currentUser} />
-              </li>
+              {currentUser ? (
+                <>
+                  <li className="layout-inline-menu-action-item">
+                    <button className="p-link">
+                      <i className="pi pi-sign-out pi-fw" />
+                      <span onClick={() => history.push('/logout')}>Đăng xuất</span>
+                    </button>
+                  </li>
+                  <li className="layout-inline-menu-action-item">
+                    <UpdateUser currentUser={currentUser} setCurrentUser={setCurrentUser} />
+                  </li>
+                  <li className="layout-inline-menu-action-item">
+                    <UserInfo currentUser={currentUser} />
+                  </li>
+                </>
+              ) : (
+                <li className="layout-inline-menu-action-item">
+                  <button className="p-link">
+                    <i className="pi pi-sign-in pi-fw" />
+                    <span onClick={() => history.push('/logout')}>Đăng nhập</span>
+                  </button>
+                </li>
+              )}
             </ul>
           </CSSTransition>
         </div>

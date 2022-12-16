@@ -24,9 +24,9 @@ function PublicLayout() {
   })
   const menuMode = 'sidebar'
   // const menuMode = 'static'
-  const [sidebarStatic, setSidebarStatic] = useState(true)
-  const [sidebarActive, setSidebarActive] = useState(true)
-  const [pinActive, setPinActive] = useState(true)
+  const [sidebarStatic, setSidebarStatic] = useState(false)
+  const [sidebarActive, setSidebarActive] = useState(false)
+  const [pinActive, setPinActive] = useState(false)
   const [configActive, setConfigActive] = useState(false)
   const [overlayMenuActive, setOverlayMenuActive] = useState(false)
   const [staticMenuDesktopInactive, setStaticMenuDesktopInactive] = useState(false)

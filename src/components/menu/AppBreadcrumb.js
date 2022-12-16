@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/button-has-type */
 /* eslint-disable react/destructuring-assignment */
 import { useLocation } from 'react-router-dom'
@@ -31,8 +32,9 @@ const AppBreadcrumb = (props) => {
             <i className="pi pi-bars" />
           </button>
         )}
-
-        <BreadCrumb model={items} className="layout-breadcrumb" />
+        {
+          // <BreadCrumb model={items} className="layout-breadcrumb" />
+        }
       </div>
     </div>
   )

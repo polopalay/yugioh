@@ -1,6 +1,10 @@
 import Paragraph from '@editorjs/paragraph'
 import ImageTool from '@editorjs/image'
 import Marker from '@editorjs/marker'
+import Quote from '@editorjs/quote'
+import InlineCode from '@editorjs/inline-code'
+import ListTool from '@editorjs/list'
+import Delimiter from '@editorjs/delimiter'
 import EditorJS from '@editorjs/editorjs'
 import AlignmentTuneTool from 'editorjs-text-alignment-blocktune'
 import { useEffect } from 'react'
@@ -26,6 +30,10 @@ const uploadByUrl = async (url) => {
 const tools = {
   paragraph: { class: Paragraph, tunes: ['alignment'] },
   marker: Marker,
+  delimiter: Delimiter,
+  quote: { class: Quote, inlineToolbar: true },
+  inlineCode: InlineCode,
+  list: { class: ListTool, inlineToolbar: true },
   image: {
     class: ImageTool,
     config: { uploader: { uploadByFile, uploadByUrl } },

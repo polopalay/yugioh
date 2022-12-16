@@ -163,17 +163,11 @@ const Upsert = (props) => {
       {fields.map((key) => (
         <div className={`col-12 lg:col-${col[key] || 6} flex flex-column`}>
           <div className="field">
-            {
-              // <span className="p-float-label">
-            }
             <label className={required.includes(key) ? 'required' : ''} htmlFor={key}>
               {`${name[key] || key}:`}
             </label>
             {renderInput(key)}
             {error[key] && <small className="p-invalid text-red-500">{error[key]}</small>}
-            {
-              // </span>
-            }
           </div>
         </div>
       ))}
