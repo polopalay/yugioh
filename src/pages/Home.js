@@ -26,14 +26,14 @@ function Home() {
           <Link className="col-12 md:col-6 lg:col-4" to={`/postDetail/${item.id}`}>
             <Card title={<p className="text-color">{item.title}</p>} className="p-0">
               <div className="flex">
-                <div className="border-round" style={{ width: '60%', height: 150 }}>
+                <div className="border-round" style={{ width: '60%', height: 180 }}>
                   <Image
                     src={item.thumnail}
                     imageClassName="w-full border-round"
-                    imageStyle={{ objectFit: 'cover', height: 150 }}
+                    imageStyle={{ objectFit: 'cover', height: 180 }}
                   />
                 </div>
-                <div className="px-3 flex flex-column" style={{ width: '40%', height: 150 }}>
+                <div className="px-3 flex flex-column" style={{ width: '40%', height: 180 }}>
                   <b className="mb-1">
                     <i className="pi pi-user mr-2" />
                     {item.author}
