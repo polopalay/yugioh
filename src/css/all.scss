@@ -12,7 +12,15 @@
     content:"(*)";
     color: red;
 }
-
+.ce-tune-alignment--right {
+    text-align: right;
+}
+.ce-tune-alignment--center {
+    text-align: center;
+}
+.ce-tune-alignment--left {
+    text-align: left;
+}
 .editor-container {
 	padding: 5px 10px;
 	.codex-editor__redactor {
@@ -21,6 +29,12 @@
 			padding: 0 1rem;
 			background-color: $shade100;
 		}
+	}
+}
+
+.tbl-no-paging {
+	.p-paginator-bottom {
+		border-bottom: 0;
 	}
 }
 

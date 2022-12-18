@@ -14,6 +14,7 @@ const Table = (props) => {
     setPaging,
     selected,
     setSelected,
+    paginatorTemplate,
   } = props
   let { take, paginator, config } = props
 
@@ -30,7 +31,6 @@ const Table = (props) => {
       </span>
     </div>
   )
-
   return (
     <>
       <DataTable
@@ -50,7 +50,12 @@ const Table = (props) => {
           20,
           50,
         ]}
-        paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+        // paginatorTemplate=""
+        paginatorTemplate={
+          paginatorTemplate === undefined
+            ? 'CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown'
+            : ''
+        }
         currentPageReportTemplate="{totalRecords} bản ghi"
         totalRecords={total}
         rows={take}

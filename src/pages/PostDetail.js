@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 import { getDatabase, onValue, ref } from 'firebase/database'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import Output from 'editorjs-react-renderer'
+import Raw from '../components/layout/Raw'
 
 function PostDetail(props) {
   const { match } = props
@@ -20,9 +22,10 @@ function PostDetail(props) {
       })
     }, [])
   }
+  if (data) console.log(data.content)
   return (
     <>
-      <div className="flex flex-column">
+      <div className="flex flex-column card">
         <div className="flex justify-content-center">
           <h4 className="m-0">{data && data.title}</h4>
         </div>
@@ -37,7 +40,7 @@ function PostDetail(props) {
             {data && data.author}
           </b>
         </div>
-        <div>{data && data.content && <Output data={{ blocks: data.content }} />}</div>
+        <div>{data && <Raw blocks={data.content} />}</div>
       </div>
     </>
   )

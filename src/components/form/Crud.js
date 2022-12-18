@@ -32,7 +32,7 @@ function Crud(props) {
     } else {
       push(dataRef, value)
     }
-    toggle()
+    // toggle()
     toast({ type: 'success', message: value.id ? 'Cập nhật thành công' : 'Thêm thành công' })
   }
   const deleteOnClick = async (id) => {

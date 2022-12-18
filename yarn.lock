@@ -1205,6 +1205,20 @@
   dependencies:
     "@codexteam/icons" "^0.0.5"
 
+"@editorjs/raw@^2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/raw/-/raw-2.4.0.tgz#b22731fea9130354ae9320f6f5eeac7bb02ed3f7"
+  integrity sha512-6k7ngx1T8+ztTG4/i5QcGPKXkF2YvdqgKgtzpOTaG6Pzm17D7Hr30Krbqz2E2Y/uoV8SiR/X1UAyKTQxrk9B6Q==
+  dependencies:
+    "@codexteam/icons" "^0.0.4"
+
+"@editorjs/table@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@editorjs/table/-/table-2.1.2.tgz#af87f3ec1178a1ce3a4a55a999aa64e1952bd842"
+  integrity sha512-0v29DU/HzjCOjkFxy8pjAhceWvCuaj70aS+i0YD1Wv7AvkMP66E4NW1lGFEv2eMaYCc5SL+/T1UJqhyd8H9uvg==
+  dependencies:
+    "@codexteam/icons" "^0.0.6"
+
 "@eslint/eslintrc@^0.2.1":
   version "0.2.2"
   resolved "https://registry.npmjs.org/@eslint/eslintrc/-/eslintrc-0.2.2.tgz"
@@ -4851,11 +4865,6 @@ editorjs-react-renderer@^3.5.0:
   dependencies:
     html-react-parser "^3.0.4"
     react "^18.2.0"
-
-editorjs-text-alignment-blocktune@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/editorjs-text-alignment-blocktune/-/editorjs-text-alignment-blocktune-1.0.3.tgz#7942fe2d3fbdbd7fcfd10fbb9b341c97ec3eb84f"
-  integrity sha512-DAJ2LJP+WjETvU4lVOJCqZ1kZkKHp0GkujkqZgza9DRv7bO46m1M/s2d5Ba5hPFdmqk1vA/ci++MQXgWD7mWYw==
 
 ee-first@1.1.1:
   version "1.1.1"

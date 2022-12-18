@@ -4,11 +4,13 @@ import Marker from '@editorjs/marker'
 import Quote from '@editorjs/quote'
 import InlineCode from '@editorjs/inline-code'
 import ListTool from '@editorjs/list'
+import RawTool from '@editorjs/raw'
 import Delimiter from '@editorjs/delimiter'
+import Table from '@editorjs/table'
 import EditorJS from '@editorjs/editorjs'
-import AlignmentTuneTool from 'editorjs-text-alignment-blocktune'
 import { useEffect } from 'react'
 import { toBase64 } from '../../utils/file'
+import AlignmentBlockTune from '../tools/AlignmentBlockTune'
 
 const uploadByFile = async (file) => {
   const data = await toBase64(file)
@@ -28,18 +30,22 @@ const uploadByUrl = async (url) => {
   }
 }
 const tools = {
-  paragraph: { class: Paragraph, tunes: ['alignment'] },
+  paragraph: { class: Paragraph, tunes: ['alignment'], inlineToolbar: true },
   marker: Marker,
   delimiter: Delimiter,
-  quote: { class: Quote, inlineToolbar: true },
+  quote: { class: Quote },
   inlineCode: InlineCode,
   list: { class: ListTool, inlineToolbar: true },
+  table: Table,
   image: {
     class: ImageTool,
     config: { uploader: { uploadByFile, uploadByUrl } },
+    inlineToolbar: true,
   },
+  raw: RawTool,
   alignment: {
-    class: AlignmentTuneTool,
+    class: AlignmentBlockTune,
+    inlineToolbar: true,
   },
 }
 
