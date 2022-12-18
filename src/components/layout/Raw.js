@@ -19,7 +19,11 @@ const Raw = (props) => {
       case 'image':
         return (
           <div className="flex justify-content-center my-2">
-            <img src={block.data.file.url} alt="img" className="max-h-30rem max-w-full" />
+            <img
+              src={block.data.file.url}
+              alt="img"
+              className="max-h-25rem max-w-full border-round"
+            />
           </div>
         )
       case 'raw':
