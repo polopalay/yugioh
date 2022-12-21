@@ -18,8 +18,9 @@ const menu = [
     icon: 'pi pi-home',
     to: '#',
     items: [
-      { label: 'Trang chủ', icon: 'pi pi-home', to: '/' },
-      { label: 'Deck', icon: 'pi pi-file-edit', to: '/decks' },
+      { label: 'Bài viết', icon: 'pi pi-book', to: '/' },
+      { label: 'Tìm kiếm', icon: 'pi pi-file', to: '/cards' },
+      { label: 'Goat', icon: 'pi pi-sun', to: '/goat' },
     ],
   },
 ]

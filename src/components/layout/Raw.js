@@ -62,7 +62,7 @@ const Raw = (props) => {
         })
         return (
           <div className="tbl-no-paging my-2">
-            <Table data={datas} column={column} paginatorTemplate="" />
+            <Table take={1000} data={datas} column={column} paginatorTemplate="" />
           </div>
         )
       }
