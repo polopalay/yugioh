@@ -1,7 +1,5 @@
-/* eslint-disable no-unused-vars */
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { ref, uploadBytes, getDownloadURL, getStorage } from 'firebase/storage'
 import { getAuth, updateProfile } from 'firebase/auth'
 import UpsertPopup from '../form/UpsertPopup'
 
@@ -9,22 +7,11 @@ const UpdateUser = (props) => {
   const { currentUser, setCurrentUser } = props
   const app = useSelector((state) => state.firebase.app)
   const auth = getAuth(app)
-  const storage = getStorage(app)
-  const toast = useSelector((state) => state.notify.toast)
   const [visible, setVisible] = useState(false)
   const toggle = () => setVisible(!visible)
 
   const save = async (data) => {
-    let avatar
-    if (data.file) {
-      const storageRef = ref(storage, `avatar/${currentUser.uid}`)
-      const rsUpload = await uploadBytes(storageRef, data.file).catch((e) => {
-        toast({ type: 'error', message: e.message })
-      })
-      if (rsUpload) avatar = await getDownloadURL(rsUpload.ref)
-    }
-    const submit = { displayName: data.displayName }
-    if (avatar) submit.photoURL = avatar
+    const submit = { displayName: data.displayName, photoURL: data.file }
     await updateProfile(currentUser, submit)
     currentUser.reload()
     setCurrentUser({ ...auth.currentUser })
@@ -37,7 +24,10 @@ const UpdateUser = (props) => {
         visible={visible}
         toggle={toggle}
         header="Chỉnh sửa thông tin người dùng"
-        data={currentUser ? { displayName: currentUser.displayName } : {}}
+        data={
+          currentUser ? { displayName: currentUser.displayName, file: currentUser.photoURL } : {}
+        }
+        fileLocaion={{ file: 'avatar' }}
         onSave={save}
         fields={['displayName', 'file']}
         name={{ displayName: 'Họ tên', file: 'Ảnh đại diện' }}

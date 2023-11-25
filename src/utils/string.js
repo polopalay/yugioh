@@ -13,4 +13,11 @@ function isBase64(str = '') {
   const base64regex = /^([0-9a-zA-Z+/]{4})*(([0-9a-zA-Z+/]{2}==)|([0-9a-zA-Z+/]{3}=))?$/
   return base64regex.test(formatBase64(str))
 }
-export { truncate, isNumeric, isBase64, formatBase64 }
+function getUniqueKey() {
+  const currentDate = new Date()
+  const tick = currentDate.getTime()
+  const binaryString = tick.toString(36)
+
+  return binaryString
+}
+export { truncate, isNumeric, isBase64, formatBase64, getUniqueKey }

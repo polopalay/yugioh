@@ -1,11 +1,11 @@
-/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable max-lines-per-function */
 import { getStorage, uploadString, ref, getDownloadURL, uploadBytes } from 'firebase/storage'
 import { Button } from 'primereact/button'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { formatBase64, isBase64 } from '../../utils/string'
+import { formatBase64, getUniqueKey, isBase64 } from '../../utils/string'
 import Modal from '../popup/Modal'
 import Upsert from './Upsert'
 
@@ -13,13 +13,14 @@ const UpsertPopup = (props) => {
   const app = useSelector((state) => state.firebase.app)
   const storage = getStorage(app)
   const { fields, toggle, onSave, data, types } = props
-  let { required, minLength, name } = props
+  let { required, minLength, name, fileLocaion } = props
   const [values, setValues] = useState({ ...data })
   const [error, setError] = useState({})
 
   required = required || []
   minLength = minLength || {}
   name = name || {}
+  fileLocaion = fileLocaion || {}
 
   useEffect(() => {
     setError({})
@@ -57,7 +58,7 @@ const UpsertPopup = (props) => {
               if (block.type === 'image') {
                 if (isBase64(block.data.file.url)) {
                   let img
-                  const storageRef = ref(storage, `images/${new Date().toString()}.png`)
+                  const storageRef = ref(storage, `images/${getUniqueKey()}.png`)
                   const rs = await uploadString(
                     storageRef,
                     formatBase64(block.data.file.url),
@@ -73,9 +74,12 @@ const UpsertPopup = (props) => {
         if (types[key] === 'file') {
           if (values[key]) {
             if (typeof values[key] !== 'string') {
-              const storageRef = ref(storage, `images/${new Date().toString()}`)
+              const root = fileLocaion[key] || 'images'
+              const storageRef = ref(storage, `${root}/${getUniqueKey()}${values[key].name}`)
               const rsUpload = await uploadBytes(storageRef, values[key])
-              if (rsUpload) values[key] = await getDownloadURL(rsUpload.ref)
+              if (rsUpload) {
+                values[key] = await getDownloadURL(rsUpload.ref)
+              }
             }
           }
         }

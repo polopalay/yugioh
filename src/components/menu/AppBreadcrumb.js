@@ -1,13 +1,18 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable react/button-has-type */
-/* eslint-disable react/destructuring-assignment */
-import { useLocation } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 import { BreadCrumb } from 'primereact/breadcrumb'
 
 const AppBreadcrumb = (props) => {
+  const { routes, onMenuButtonClick } = props
   const location = useLocation()
-  const activeRoute = props.routes.filter((route) => {
-    return route.path === location.pathname
+  const activeRoute = routes.filter((route) => {
+    const routesPath = route.path.split('/')
+    const currentsPath = location.pathname.split('/')
+    for (let i = 0; i < currentsPath.length; i++) {
+      if (routesPath[i] !== currentsPath[i] && !routesPath[i].includes(':')) {
+        return false
+      }
+    }
+    return true
   })
 
   let items
@@ -17,7 +22,18 @@ const AppBreadcrumb = (props) => {
   } else if (!activeRoute.length) {
     items = [{ label: '' }, { label: '' }]
   } else {
-    items = [{ label: activeRoute[0].parentName }, { label: activeRoute[0].name }]
+    const parent = activeRoute[0].parent || '/'
+
+    items = [
+      {
+        label: (
+          <Link className="p-text-secondary" to={parent}>
+            {activeRoute[0].parentName}
+          </Link>
+        ),
+      },
+      { label: activeRoute[0].name },
+    ]
   }
 
   const isStatic = () => {
@@ -28,13 +44,11 @@ const AppBreadcrumb = (props) => {
     <div className="layout-breadcrumb-container">
       <div className="layout-breadcrumb-left-items">
         {isStatic() && (
-          <button className="menu-button p-link" onClick={props.onMenuButtonClick}>
+          <button type="button" className="menu-button p-link" onClick={onMenuButtonClick}>
             <i className="pi pi-bars" />
           </button>
         )}
-        {
-          // <BreadCrumb model={items} className="layout-breadcrumb" />
-        }
+        {<BreadCrumb model={items} className="layout-breadcrumb" />}
       </div>
     </div>
   )

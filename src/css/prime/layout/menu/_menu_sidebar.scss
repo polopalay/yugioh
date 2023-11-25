@@ -3,8 +3,10 @@
         &.layout-sidebar {
             &.layout-sidebar-static {
                 .layout-main {
-                    //margin-left: 21rem;
                     margin-left: 19rem;
+                }
+                .no-menu {
+                    margin-left: 0rem;
                 }
             }
 
@@ -50,7 +52,7 @@
                             padding-right: 22px;
 
                             li {
-                                
+
                                 > a {
                                     > span {
                                         visibility: visible;
@@ -228,7 +230,12 @@
 
             .layout-main {
                 margin-left: 92px;
-
+                .layout-topbar {
+                    display: none;
+                }
+            }
+            .no-menu {
+                margin-left: 0px;
                 .layout-topbar {
                     display: none;
                 }

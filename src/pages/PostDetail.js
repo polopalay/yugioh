@@ -1,9 +1,7 @@
-/* eslint-disable no-unused-vars */
 import { getDatabase, onValue, ref } from 'firebase/database'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import Output from 'editorjs-react-renderer'
 import Raw from '../components/layout/Raw'
 
 function PostDetail(props) {
@@ -22,7 +20,6 @@ function PostDetail(props) {
       })
     }, [])
   }
-  if (data) console.log(data.content)
   return (
     <>
       <div className="flex flex-column card">

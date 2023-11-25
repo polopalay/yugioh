@@ -3,7 +3,6 @@ import { Route, withRouter, useLocation } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import { classNames } from 'primereact/utils'
 import PrimeReact from 'primereact/api'
-// import { useSelector } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { getAuth } from 'firebase/auth'
 import ProtectedRoute from './ProtectedRoute'
@@ -11,7 +10,6 @@ import routes from '../constant/routes'
 import AppMenu from '../components/menu/AppMenu'
 import AppFooter from '../components/menu/AppFooter'
 import AppTopbar from '../components/menu/AppTopbar'
-// import { convertToMenu } from '../utils/convertToTree'
 import AppBreadcrumb from '../components/menu/AppBreadcrumb'
 import { adminId, adminMenu, menu } from '../constant/config'
 
@@ -24,9 +22,9 @@ function PublicLayout() {
   })
   const menuMode = 'sidebar'
   // const menuMode = 'static'
-  const [sidebarStatic, setSidebarStatic] = useState(false)
-  const [sidebarActive, setSidebarActive] = useState(false)
-  const [pinActive, setPinActive] = useState(false)
+  const [sidebarStatic, setSidebarStatic] = useState(true)
+  const [sidebarActive, setSidebarActive] = useState(true)
+  const [pinActive, setPinActive] = useState(true)
   const [configActive, setConfigActive] = useState(false)
   const [overlayMenuActive, setOverlayMenuActive] = useState(false)
   const [staticMenuDesktopInactive, setStaticMenuDesktopInactive] = useState(false)
@@ -228,7 +226,7 @@ function PublicLayout() {
   return (
     <div>
       <div className={layoutClassName} onClick={onDocumentClick}>
-        <div className="layout-main">
+        <div className={currentUser ? 'layout-main' : 'layout-main no-menu'}>
           <AppTopbar
             items={appMenu}
             menuMode={menuMode}
@@ -246,23 +244,25 @@ function PublicLayout() {
             onRootMenuItemClick={onRootMenuItemClick}
             resetActiveIndex={resetActiveIndex}
           />
-          <AppMenu
-            model={appMenu}
-            onRootMenuItemClick={onRootMenuItemClick}
-            onMenuItemClick={onMenuItemClick}
-            onToggleMenu={onToggleMenu}
-            onMenuClick={onMenuClick}
-            menuMode={menuMode}
-            menuActive={menuActive}
-            sidebarActive={sidebarActive}
-            sidebarStatic={sidebarStatic}
-            pinActive={pinActive}
-            onSidebarMouseLeave={onSidebarMouseLeave}
-            onSidebarMouseOver={onSidebarMouseOver}
-            activeInlineProfile={activeInlineProfile}
-            onChangeActiveInlineMenu={onChangeActiveInlineMenu}
-            resetActiveIndex={resetActiveIndex}
-          />
+          {currentUser && (
+            <AppMenu
+              model={appMenu}
+              onRootMenuItemClick={onRootMenuItemClick}
+              onMenuItemClick={onMenuItemClick}
+              onToggleMenu={onToggleMenu}
+              onMenuClick={onMenuClick}
+              menuMode={menuMode}
+              menuActive={menuActive}
+              sidebarActive={sidebarActive}
+              sidebarStatic={sidebarStatic}
+              pinActive={pinActive}
+              onSidebarMouseLeave={onSidebarMouseLeave}
+              onSidebarMouseOver={onSidebarMouseOver}
+              activeInlineProfile={activeInlineProfile}
+              onChangeActiveInlineMenu={onChangeActiveInlineMenu}
+              resetActiveIndex={resetActiveIndex}
+            />
+          )}
 
           <AppBreadcrumb
             routes={routes}

@@ -1,5 +1,3 @@
-/* eslint-disable react/button-has-type */
-/* eslint-disable react/destructuring-assignment */
 import { useRef, useState } from 'react'
 import { CSSTransition } from 'react-transition-group'
 import { classNames } from 'primereact/utils'
@@ -10,6 +8,7 @@ import UpdateUser from './UpdateUser'
 import UserInfo from './UserInfo'
 
 const AppInlineMenu = (props) => {
+  const { activeInlineProfile, onChangeActiveInlineMenu } = props
   const app = useSelector((state) => state.firebase.app)
   const [currentUser, setCurrentUser] = useState(null)
   const menuRef = useRef(null)
@@ -38,12 +37,13 @@ const AppInlineMenu = (props) => {
       {!isMobile() && (isStatic() || isSlim() || isSidebar()) && (
         <div
           className={classNames('layout-inline-menu', {
-            'layout-inline-menu-active': props.activeInlineProfile,
+            'layout-inline-menu-active': activeInlineProfile,
           })}
         >
           <button
+            type="button"
             className="layout-inline-menu-action p-link"
-            onClick={props.onChangeActiveInlineMenu}
+            onClick={onChangeActiveInlineMenu}
           >
             <img
               src={(currentUser && currentUser.photoURL) || '/assets/layout/images/avatar.png'}
@@ -59,14 +59,14 @@ const AppInlineMenu = (props) => {
             nodeRef={menuRef}
             classNames="p-toggleable-content"
             timeout={{ enter: 1000, exit: 450 }}
-            in={props.activeInlineProfile}
+            in={activeInlineProfile}
             unmountOnExit
           >
             <ul ref={menuRef} className="layout-inline-menu-action-panel">
               {currentUser ? (
                 <>
                   <li className="layout-inline-menu-action-item">
-                    <button className="p-link">
+                    <button className="p-link" type="button">
                       <i className="pi pi-sign-out pi-fw" />
                       <span onClick={() => history.push('/logout')}>Đăng xuất</span>
                     </button>
@@ -80,7 +80,7 @@ const AppInlineMenu = (props) => {
                 </>
               ) : (
                 <li className="layout-inline-menu-action-item">
-                  <button className="p-link">
+                  <button className="p-link" type="button">
                     <i className="pi pi-sign-in pi-fw" />
                     <span onClick={() => history.push('/login')}>Đăng nhập</span>
                   </button>

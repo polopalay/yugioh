@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { getDatabase, onValue, ref } from 'firebase/database'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -15,8 +14,10 @@ function Home() {
   useEffect(() => {
     onValue(dataRef, (snapshot) => {
       const rawList = snapshot.val()
-      const list = jsonToList(rawList)
-      setData(list)
+      if (rawList) {
+        const list = jsonToList(rawList)
+        setData(list)
+      }
     })
   }, [])
   return (

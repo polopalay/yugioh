@@ -17,8 +17,10 @@ function Crud(props) {
   useEffect(() => {
     onValue(dataRef, (snapshot) => {
       const rawList = snapshot.val()
-      const list = jsonToList(rawList)
-      setData(list)
+      if (rawList) {
+        const list = jsonToList(rawList)
+        setData(list)
+      }
     })
   }, [])
   const [visible, setVisible] = useState(false)
@@ -32,7 +34,6 @@ function Crud(props) {
     } else {
       push(dataRef, value)
     }
-    // toggle()
     toast({ type: 'success', message: value.id ? 'Cập nhật thành công' : 'Thêm thành công' })
   }
   const deleteOnClick = async (id) => {

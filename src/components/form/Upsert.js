@@ -118,7 +118,7 @@ const Upsert = (props) => {
             className="w-full"
             onSelect={(event) => {
               const { files } = event.originalEvent.target
-              if (files.length === 0) return
+              if (!files[0]) return
               const file = files[0]
               handleChange(key, file)
             }}

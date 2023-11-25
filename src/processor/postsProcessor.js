@@ -1,15 +1,15 @@
 const postsProcessor = {}
-let users = [{ id: 0, name: 'Bằng', userName: 'User' }]
+let post = [{ id: 0, name: 'Bằng', userName: 'User' }]
 postsProcessor.getAll = async () => {
-  return users
+  return post
 }
 postsProcessor.upsert = async (data) => {
-  users.push(data)
+  post.push(data)
   return { isSuccess: true, data: 'Cập nhật thành công' }
 }
 
 postsProcessor.delete = async (id) => {
-  users = users.filter((item) => item.id !== id)
+  post = post.filter((item) => item.id !== id)
   return { isSuccess: true, data: 'Xoá thành công' }
 }
 

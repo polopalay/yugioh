@@ -1,5 +1,4 @@
-// const appName = 'VNPT'
-const appName = 'Adaman'
+const appName = 'Hiền tài VN'
 const apiUrl = '/api/'
 const firebaseConfig = {
   apiKey: 'AIzaSyDSg1qdtK5SInSlBpy6v3STZjz0ufP0Jjo',
@@ -17,11 +16,7 @@ const menu = [
     label: 'Trang chủ',
     icon: 'pi pi-home',
     to: '#',
-    items: [
-      { label: 'Bài viết', icon: 'pi pi-book', to: '/' },
-      { label: 'Tìm kiếm', icon: 'pi pi-file', to: '/cards' },
-      { label: 'Goat', icon: 'pi pi-sun', to: '/goat' },
-    ],
+    items: [{ label: 'Bài viết', icon: 'pi pi-book', to: '/' }],
   },
 ]
 const adminMenu = [

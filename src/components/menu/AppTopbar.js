@@ -1,7 +1,4 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/button-has-type */
-/* eslint-disable max-lines-per-function */
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { classNames } from 'primereact/utils'
 import { useSelector } from 'react-redux'
 import { getAuth } from 'firebase/auth'
@@ -12,6 +9,23 @@ import UpdateUser from './UpdateUser'
 import UserInfo from './UserInfo'
 
 const AppTopbar = (props) => {
+  const {
+    onMenuButtonClick,
+    menuMode,
+    colorScheme,
+    menuActive,
+    activeInlineProfile,
+    onSidebarMouseOver,
+    onSidebarMouseLeave,
+    onToggleMenu,
+    onChangeActiveInlineMenu,
+    onMenuClick,
+    onRootMenuItemClick,
+    onMenuItemClick,
+    topbarMenuActive,
+    onTopbarItemClick,
+    items,
+  } = props
   const app = useSelector((state) => state.firebase.app)
   const [currentUser, setCurrentUser] = useState(null)
   const auth = getAuth(app)
@@ -22,11 +36,11 @@ const AppTopbar = (props) => {
     <>
       <div className="layout-topbar">
         <div className="layout-topbar-left">
-          <button className="topbar-menu-button p-link" onClick={props.onMenuButtonClick}>
+          <button type="button" className="topbar-menu-button p-link" onClick={onMenuButtonClick}>
             <i className="pi pi-bars" />
           </button>
 
-          <button className="logo p-link" onClick={() => history.push('/')}>
+          <button type="button" className="logo p-link" onClick={() => history.push('/')}>
             <img src="/assets/icon/icon.png" alt="logo" />
           </button>
 
@@ -34,18 +48,18 @@ const AppTopbar = (props) => {
         </div>
 
         <AppMenu
-          model={props.items}
-          menuMode={props.menuMode}
-          colorScheme={props.colorScheme}
-          menuActive={props.menuActive}
-          activeInlineProfile={props.activeInlineProfile}
-          onSidebarMouseOver={props.onSidebarMouseOver}
-          onSidebarMouseLeave={props.onSidebarMouseLeave}
-          toggleMenu={props.onToggleMenu}
-          onChangeActiveInlineMenu={props.onChangeActiveInlineMenu}
-          onMenuClick={props.onMenuClick}
-          onRootMenuItemClick={props.onRootMenuItemClick}
-          onMenuItemClick={props.onMenuItemClick}
+          model={items}
+          menuMode={menuMode}
+          colorScheme={colorScheme}
+          menuActive={menuActive}
+          activeInlineProfile={activeInlineProfile}
+          onSidebarMouseOver={onSidebarMouseOver}
+          onSidebarMouseLeave={onSidebarMouseLeave}
+          toggleMenu={onToggleMenu}
+          onChangeActiveInlineMenu={onChangeActiveInlineMenu}
+          onMenuClick={onMenuClick}
+          onRootMenuItemClick={onRootMenuItemClick}
+          onMenuItemClick={onMenuItemClick}
         />
 
         <div className="layout-topbar-right">
@@ -53,10 +67,10 @@ const AppTopbar = (props) => {
             <li
               id="profile"
               className={classNames('profile-item', {
-                'active-topmenuitem': props.topbarMenuActive,
+                'active-topmenuitem': topbarMenuActive,
               })}
             >
-              <button className="p-link" onClick={props.onTopbarItemClick}>
+              <button type="button" className="p-link" onClick={onTopbarItemClick}>
                 <img
                   src={(currentUser && currentUser.photoURL) || '/assets/layout/images/avatar.png'}
                   alt="profile"
@@ -67,7 +81,7 @@ const AppTopbar = (props) => {
                 {currentUser ? (
                   <>
                     <li role="menuitem">
-                      <button className="p-link">
+                      <button type="button" className="p-link">
                         <i className="pi pi-sign-out pi-fw" />
                         <span onClick={() => history.push('/logout')}>Đăng xuất</span>
                       </button>
@@ -81,7 +95,7 @@ const AppTopbar = (props) => {
                   </>
                 ) : (
                   <li role="menuitem">
-                    <button className="p-link">
+                    <button type="button" className="p-link">
                       <i className="pi pi-sign-in pi-fw" />
                       <span onClick={() => history.push('/login')}>Đăng nhập</span>
                     </button>

@@ -7,7 +7,7 @@ const AppFooter = () => {
         <img id="footer-logo" src="/assets/icon/icon.png" alt="atlantis-layout" />
         <span className="app-name">{appName}</span>
       </div>
-      <span className="copyright">&#169; Một sản phẩm của VNPT</span>
+      <span className="copyright">&#169; Hiền tài là nguyên khí quốc gia</span>
     </div>
   )
 }

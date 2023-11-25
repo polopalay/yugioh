@@ -1,12 +1,9 @@
-/* eslint-disable no-unused-vars */
 import { Redirect, Route, withRouter } from 'react-router'
 import { useSelector } from 'react-redux'
-// import { getToken } from '../utils/security'
 
 function ProtectedRoute(props) {
   const permissions = useSelector((state) => state.user.actions)
   const { route } = props
-  // const isLogin = getToken()
   const isLogin = true
   const havePermission =
     !permissions ||
