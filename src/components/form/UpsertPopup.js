@@ -75,7 +75,7 @@ const UpsertPopup = (props) => {
           if (values[key]) {
             if (typeof values[key] !== 'string') {
               const root = fileLocaion[key] || 'images'
-              const storageRef = ref(storage, `${root}/${getUniqueKey()}${values[key].name}`)
+              const storageRef = ref(storage, `${root}/${getUniqueKey()}.png`)
               const rsUpload = await uploadBytes(storageRef, values[key])
               if (rsUpload) {
                 values[key] = await getDownloadURL(rsUpload.ref)

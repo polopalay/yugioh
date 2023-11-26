@@ -1,5 +1,5 @@
-// import { useState } from 'react'
 import { Image } from 'primereact/image'
+import { useSelector } from 'react-redux'
 import Crud from '../components/form/Crud'
 import postsProcessor from '../processor/postsProcessor'
 
@@ -7,10 +7,11 @@ const moduleName = 'bài viết'
 const processor = postsProcessor
 
 const PostsManager = () => {
+  const app = useSelector((state) => state.firebase.app)
+  processor.init(app)
   const column = [
     { value: 'title', name: 'Tiêu đề', sortable: true },
     { value: 'author', name: 'Tác giả', sortable: true },
-    { value: 'date', name: 'Ngày tạo', sortable: true },
     {
       value: 'thumnail',
       name: 'Ảnh mô tả',
@@ -19,31 +20,22 @@ const PostsManager = () => {
   ]
 
   const config = {
-    width: '96%',
-    fields: ['author', 'title', 'thumnail', 'date', 'description', 'content'],
-    maxLength: { author: 20, title: 80, description: 300 },
-    col: { author: 12, date: 12, title: 12, thumnail: 12, description: 12, content: 12 },
-    required: ['author', 'title'],
-    types: { content: 'editor', thumnail: 'file', description: 'text-area', date: 'date' },
+    fields: ['title', 'thumnail', 'description', 'content'],
+    maxLength: { title: 80, description: 300 },
+    col: { title: 12, thumnail: 12, description: 12, content: 12 },
+    required: ['title'],
+    types: { content: 'editor', thumnail: 'file', description: 'text-area' },
     name: {
-      author: 'Tác giả',
       thumnail: 'Ảnh mô tả',
       description: 'Chú thích',
       title: 'Tiêu đề',
       content: 'Nội dung',
-      date: 'Ngày tạo',
     },
   }
 
   return (
     <>
-      <Crud
-        processor={processor}
-        moduleName={moduleName}
-        column={column}
-        upsert={config}
-        module="posts"
-      />
+      <Crud processor={processor} moduleName={moduleName} column={column} upsert={config} />
     </>
   )
 }

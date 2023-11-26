@@ -227,23 +227,25 @@ function PublicLayout() {
     <div>
       <div className={layoutClassName} onClick={onDocumentClick}>
         <div className={currentUser ? 'layout-main' : 'layout-main no-menu'}>
-          <AppTopbar
-            items={appMenu}
-            menuMode={menuMode}
-            menuActive={menuActive}
-            topbarMenuActive={topbarMenuActive}
-            activeInlineProfile={activeInlineProfile}
-            onTopbarItemClick={onTopbarItemClick}
-            onMenuButtonClick={onMenuButtonClick}
-            onSidebarMouseOver={onSidebarMouseOver}
-            onSidebarMouseLeave={onSidebarMouseLeave}
-            onToggleMenu={onToggleMenu}
-            onChangeActiveInlineMenu={onChangeActiveInlineMenu}
-            onMenuClick={onMenuClick}
-            onMenuItemClick={onMenuItemClick}
-            onRootMenuItemClick={onRootMenuItemClick}
-            resetActiveIndex={resetActiveIndex}
-          />
+          {currentUser && (
+            <AppTopbar
+              items={appMenu}
+              menuMode={menuMode}
+              menuActive={menuActive}
+              topbarMenuActive={topbarMenuActive}
+              activeInlineProfile={activeInlineProfile}
+              onTopbarItemClick={onTopbarItemClick}
+              onMenuButtonClick={onMenuButtonClick}
+              onSidebarMouseOver={onSidebarMouseOver}
+              onSidebarMouseLeave={onSidebarMouseLeave}
+              onToggleMenu={onToggleMenu}
+              onChangeActiveInlineMenu={onChangeActiveInlineMenu}
+              onMenuClick={onMenuClick}
+              onMenuItemClick={onMenuItemClick}
+              onRootMenuItemClick={onRootMenuItemClick}
+              resetActiveIndex={resetActiveIndex}
+            />
+          )}
           {currentUser && (
             <AppMenu
               model={appMenu}

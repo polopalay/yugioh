@@ -2,44 +2,35 @@ import { useEffect, useState } from 'react'
 import { Button } from 'primereact/button'
 import { Toolbar } from 'primereact/toolbar'
 import { useSelector } from 'react-redux'
-import { getDatabase, onValue, ref, push, update, remove } from 'firebase/database'
 import UpsertPopup from './UpsertPopup'
 import Table from '../layout/Table'
-import { jsonToList } from '../../utils/format'
 
 function Crud(props) {
-  const { moduleName, column, upsert, table, toolbar, chucNang, module } = props
+  const { processor, moduleName, column, upsert, table, toolbar, chucNang } = props
   const [oneData, setOneData] = useState({})
-  const app = useSelector((state) => state.firebase.app)
   const [data, setData] = useState([])
-  const database = getDatabase(app)
-  const dataRef = ref(database, module)
-  useEffect(() => {
-    onValue(dataRef, (snapshot) => {
-      const rawList = snapshot.val()
-      if (rawList) {
-        const list = jsonToList(rawList)
-        setData(list)
-      }
-    })
+  const getData = async () => {
+    const rs = await processor.getAll()
+    setData(rs)
+  }
+  useEffect(async () => {
+    await getData()
   }, [])
   const [visible, setVisible] = useState(false)
   const toast = useSelector((store) => store.notify.toast)
   const confirm = useSelector((store) => store.notify.confirm)
   const toggle = () => setVisible(!visible)
   const save = async (value) => {
-    if (value.id) {
-      const nodeRef = ref(database, `${module}/${value.id}`)
-      update(nodeRef, { ...value, id: null })
-    } else {
-      push(dataRef, value)
-    }
-    toast({ type: 'success', message: value.id ? 'Cập nhật thành công' : 'Thêm thành công' })
+    const rs = await processor.upsert(value)
+    toggle()
+    toast(rs)
+    await getData()
   }
   const deleteOnClick = async (id) => {
-    const nodeRef = ref(database, `${module}/${id}`)
-    await remove(nodeRef)
-    toast({ type: 'success', message: 'Xoá thành công' })
+    const rs = await processor.delete(id)
+    console.log(rs)
+    toast(rs)
+    await getData()
   }
   const columnTable = [
     ...column,
@@ -53,8 +44,9 @@ function Crud(props) {
             <Button
               icon="pi pi-pencil"
               className="p-button-rounded p-button-warning mr-2"
-              onClick={() => {
-                setOneData(value)
+              onClick={async () => {
+                const rs = await processor.getOne(value.id)
+                setOneData(rs)
                 toggle()
               }}
               tooltipOptions={{ position: 'top' }}

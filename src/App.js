@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useRef, useState } from 'react'
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom'
 import { Toast } from 'primereact/toast'
@@ -14,7 +13,6 @@ import store from './store/store'
 import { setConfirm, setToast } from './store/reducer/notify'
 import Confirmation from './components/form/Confirmation'
 import { firebaseConfig } from './constant/config'
-import history from './History'
 import { setApp } from './store/reducer/firebase'
 
 function App() {

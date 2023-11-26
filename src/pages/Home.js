@@ -2,7 +2,6 @@ import { getDatabase, onValue, ref } from 'firebase/database'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
-import { Card } from 'primereact/card'
 import { Image } from 'primereact/image'
 import { jsonToList } from '../utils/format'
 
@@ -15,7 +14,7 @@ function Home() {
     onValue(dataRef, (snapshot) => {
       const rawList = snapshot.val()
       if (rawList) {
-        const list = jsonToList(rawList)
+        const list = jsonToList(rawList).reverse()
         setData(list)
       }
     })
@@ -24,29 +23,14 @@ function Home() {
     <>
       <div className="grid">
         {data.map((item) => (
-          <Link className="col-12 md:col-6 lg:col-4" to={`/postDetail/${item.id}`}>
-            <Card title={<p className="text-color">{item.title}</p>} className="p-0">
-              <div className="flex">
-                <div className="border-round" style={{ width: '60%', height: 180 }}>
-                  <Image
-                    src={item.thumnail}
-                    imageClassName="w-full border-round"
-                    imageStyle={{ objectFit: 'cover', height: 180 }}
-                  />
-                </div>
-                <div className="px-3 flex flex-column" style={{ width: '40%', height: 180 }}>
-                  <b className="mb-1">
-                    <i className="pi pi-user mr-2" />
-                    {item.author}
-                  </b>
-                  <b className="mb-1">
-                    <i className="pi pi-calendar mr-2" />
-                    {item.date}
-                  </b>
-                  <p>{item.description}</p>
-                </div>
-              </div>
-            </Card>
+          <Link className="col-12 md:col-6 lg:col-3" to={`/postDetail/${item.id}`}>
+            <div className="border-round" style={{ width: 'auto', height: 450 }}>
+              <Image
+                src={item.thumnail}
+                imageClassName="w-full border-round"
+                imageStyle={{ objectFit: 'cover', height: 450 }}
+              />
+            </div>
           </Link>
         ))}
       </div>
