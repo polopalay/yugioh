@@ -2,7 +2,6 @@ import { get, getDatabase, push, ref, remove, update } from 'firebase/database'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { jsonToList } from '../utils/format'
 
-const module = 'gallery'
 const galleryProcessor = {}
 let database
 let user
@@ -15,49 +14,42 @@ galleryProcessor.init = (app) => {
   })
 }
 galleryProcessor.getOne = async (id) => {
-  const nodeRef = ref(database, `${module}/${id}`)
-  const contentRef = ref(database, `contents/${id}`)
+  const nodeRef = ref(database, `gallery/${id}`)
   const post = (await get(nodeRef)).val()
-  const content = (await get(contentRef)).val()
-  return { id, ...post, content: content.content }
+  return { id, ...post }
 }
 galleryProcessor.getAll = async () => {
-  const dataRef = ref(database, module)
+  const dataRef = ref(database, 'gallery')
   const rs = await get(dataRef)
   const rawList = rs.val()
+  if (!rawList) return []
   const list = jsonToList(rawList)
   return list.reverse()
 }
 galleryProcessor.upsert = async (data) => {
   if (data.id) {
-    const nodeRef = ref(database, `${module}/${data.id}`)
-    const contentRef = ref(database, `contents/${data.id}`)
+    const nodeRef = ref(database, `gallery/${data.id}`)
     await update(nodeRef, {
       ...data,
+      uid: user ? user.uid : '',
       author: user ? user.displayName : '',
-      content: null,
+      posts: null,
       id: null,
     })
-    await update(contentRef, { content: data.content })
   } else {
-    const dataRef = ref(database, module)
-    const post = await push(dataRef, {
+    const dataRef = ref(database, 'gallery')
+    await push(dataRef, {
       ...data,
+      uid: user ? user.uid : '',
       author: user ? user.displayName : '',
-      content: null,
     })
-    const { key } = await get(post)
-    const contentRef = ref(database, `contents/${key}`)
-    await update(contentRef, { content: data.content })
   }
   return { type: 'success', message: data.id ? 'Cập nhật thành công' : 'Thêm thành công' }
 }
 
 galleryProcessor.delete = async (id) => {
-  const postRef = ref(database, `${module}/${id}`)
+  const postRef = ref(database, `gallery/${id}`)
   await remove(postRef)
-  const contentRef = ref(database, `contents/${id}`)
-  await remove(contentRef)
   return { type: 'success', message: 'Xoá thành công' }
 }
 

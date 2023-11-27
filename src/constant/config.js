@@ -24,7 +24,10 @@ const adminMenu = [
     label: 'Quản trị',
     icon: 'pi pi-cog',
     to: '#',
-    items: [{ label: 'Bài viết', icon: 'pi pi-file', to: '/postsManager' }],
+    items: [
+      { label: 'Bài viết', icon: 'pi pi-book', to: '/postsManager' },
+      { label: 'Danh mục', icon: 'pi pi-bookmark', to: '/galleryManager' },
+    ],
   },
 ]
 export { apiUrl, appName, firebaseConfig, adminId, menu, adminMenu }

@@ -1,6 +1,5 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
-/* eslint-disable max-lines-per-function */
 import { getStorage, uploadString, ref, getDownloadURL, uploadBytes } from 'firebase/storage'
 import { Button } from 'primereact/button'
 import { useEffect, useState } from 'react'
@@ -100,7 +99,7 @@ const UpsertPopup = (props) => {
       <Button
         onClick={() => {
           save()
-          // toggle && toggle()
+          if (toggle) toggle()
         }}
         label="Lưu"
       />

@@ -3,6 +3,7 @@ import { InputText } from 'primereact/inputtext'
 import { Calendar } from 'primereact/calendar'
 import { Dropdown } from 'primereact/dropdown'
 import { InputTextarea } from 'primereact/inputtextarea'
+import { MultiSelect } from 'primereact/multiselect'
 import { FileUpload } from 'primereact/fileupload'
 import { Checkbox } from 'primereact/checkbox'
 import { dateToDDMMYY, DDMMYYToDate } from '../../utils/date'
@@ -57,6 +58,21 @@ const Upsert = (props) => {
             disabled={disable.includes(key)}
           />
         )
+      case 'multiple-select':
+        return (
+          <MultiSelect
+            className={`w-full ${error[key] ? 'p-invalid' : ''}`}
+            optionValue="id"
+            optionLabel="name"
+            value={values[key]}
+            onChange={(e) => handleChange(key, e.value)}
+            options={options[key] || []}
+            placeholder={name[key] || key}
+            filter
+            filterBy={selectSearcher[key] || 'name'}
+            disabled={disable.includes(key)}
+          />
+        )
       case 'checkbox':
         return (
           <div className="w-full">
@@ -70,7 +86,7 @@ const Upsert = (props) => {
             minLength={minLength[key]}
             className={`w-full ${error[key] ? 'p-invalid' : ''}`}
             type="password"
-            // placeholder={name[key] || key}
+            placeholder={name[key] || key}
             onChange={(e) => handleChange(key, e.target.value)}
             value={values[key]}
             disabled={disable.includes(key)}
@@ -86,6 +102,7 @@ const Upsert = (props) => {
               showButtonBar
               dateFormat="dd/mm/yy"
               value={values[key] ? DDMMYYToDate(values[key]) : undefined}
+              placeholder={name[key] || key}
               onChange={(e) => {
                 if (e.value) {
                   handleChange(key, dateToDDMMYY(e.value))
@@ -102,8 +119,8 @@ const Upsert = (props) => {
           <div className="w-full">
             <InputTextarea
               className={`w-full ${error[key] ? 'p-invalid' : ''}`}
+              placeholder={name[key] || key}
               rows={2}
-              // cols={30}
               value={values[key]}
               onChange={(e) => handleChange(key, e.target.value)}
               autoResize
@@ -149,7 +166,7 @@ const Upsert = (props) => {
             minLength={minLength[key]}
             className={`w-full ${error[key] ? 'p-invalid' : ''}`}
             type="text"
-            // placeholder={name[key] || key}
+            placeholder={name[key] || key}
             onChange={(e) => handleChange(key, e.target.value)}
             value={values[key]}
             disabled={disable.includes(key)}

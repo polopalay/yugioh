@@ -11,7 +11,6 @@ postsProcessor.init = (app) => {
   const auth = getAuth(app)
   onAuthStateChanged(auth, (u) => {
     user = u
-    console.log(user)
   })
 }
 postsProcessor.getOne = async (id) => {
@@ -25,6 +24,7 @@ postsProcessor.getAll = async () => {
   const dataRef = ref(database, 'posts')
   const rs = await get(dataRef)
   const rawList = rs.val()
+  if (!rawList) return []
   const list = jsonToList(rawList)
   return list.reverse()
 }

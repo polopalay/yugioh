@@ -22,13 +22,11 @@ function Crud(props) {
   const toggle = () => setVisible(!visible)
   const save = async (value) => {
     const rs = await processor.upsert(value)
-    toggle()
     toast(rs)
     await getData()
   }
   const deleteOnClick = async (id) => {
     const rs = await processor.delete(id)
-    console.log(rs)
     toast(rs)
     await getData()
   }
